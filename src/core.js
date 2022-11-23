@@ -94,12 +94,10 @@ function getOperationFn(initialValue, operatorFn) {
  * console.log(generator()); // 7
  * console.log(generator()); // 9
  */
-function* sequence(start, step) {
+function sequence(start, step) {
     if (start === undefined) start = 0;
-    if (step === undefined) start = 1;
-
+    if (step === undefined) step = 1;
     let value = start - step;
-
     return function generator() {
         value += step;
         return value;
@@ -121,13 +119,16 @@ function* sequence(start, step) {
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
 function deepEqual(firstObject, secondObject) {
-    if (firstObject === secondObject) {
+    if (firstObject === secondObject) return true;
+    else if (firstObject !== firstObject && secondObject !== secondObject)
         return true;
-    } else if (
-        typeof firstObject == 'object' &&
-        firstObject != null &&
-        typeof secondObject == 'object' &&
-        secondObject != null
+    else if (firstObject === undefined && secondObject === undefined)
+        return true;
+    else if (
+        typeof firstObject === 'object' &&
+        firstObject !== null &&
+        typeof secondObject === 'object' &&
+        secondObject !== null
     ) {
         if (
             Object.keys(firstObject).length !== Object.keys(secondObject).length
@@ -148,7 +149,6 @@ function deepEqual(firstObject, secondObject) {
         return false;
     }
 }
-
 module.exports = {
     isInteger,
     even,
