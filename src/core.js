@@ -1,23 +1,65 @@
 //Напишите функцию, которая проверяет, является ли число целым используя побитовые операторы
-function isInteger(n) {}
+function isInteger(n) {
+    return ((n << 1) >> 1) === n;
+}
+
 
 //Напишите функцию, которая возвращает массив четных чисел от 2 до 20 включительно
-function even() {}
+function even() {
+    return Array
+        .from(Array(20 + 1).keys())
+        .filter((number) => number > 0 && number % 2 === 0);
+}
 
 //Напишите функцию, считающую сумму чисел до заданного используя цикл
-function sumTo(n) {}
+function sumTo(n) {
+    let counter = 0
+    let sum = 0
+    while (counter <= n) {
+        sum += counter++
+    }
+    return sum
+}
 
-//Напишите функцию, считающую сумму чисел до заданного используя рекурсию
-function recSumTo(n) {}
+// Напишите функцию, считающую сумму чисел до заданного используя рекурсию
+function recSumTo(n) {
+    if (n === 0) {
+        return 0
+    }
+    return n + recSumTo(n - 1)
+}
 
-//Напишите функцию, считающую факториал заданного числа
-function factorial(n) {}
+// Напишите функцию, считающую факториал заданного числа
+function factorial(n) {
+    let factorial = 1
+    let counter = 1
+    while (counter <= n) {
+        factorial *= counter++
+    }
+    return factorial
+}
 
-//Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
-function isBinary(n) {}
+// Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
+function isBinary(n) {
+    let counter = 1
+    while (counter <= n) {
+        if (counter === n) {
+            return true
+        }
+        counter = counter << 1
+    }
+    return false
+}
 
 //Напишите функцию, которая находит N-е число Фибоначчи
-function fibonacci(n) {}
+function fibonacci(n) {
+    let fibNumbers = Array.from(Array(2).keys())
+    let length = fibNumbers.length
+    while (fibNumbers.length <= n) {
+        length = fibNumbers.push(fibNumbers[length - 1] + fibNumbers[length - 2])
+    }
+    return fibNumbers[length - 1]
+}
 
 /** Напишите функцию, которая принимает начальное значение и функцию операции
  * и возвращает функцию - выполняющую эту операцию.
@@ -30,7 +72,15 @@ function fibonacci(n) {}
  * console.log(sumFn(5)) - 15
  * console.log(sumFn(3)) - 18
  */
-function getOperationFn(initialValue, operatorFn) {}
+function getOperationFn(initialValue, operatorFn) {
+    let innerVal = initialValue
+    return x => {
+        if (operatorFn !== undefined) {
+            innerVal = operatorFn(innerVal, x)
+        }
+        return innerVal
+    }
+}
 
 /**
  * Напишите функцию создания генератора арифметической последовательности.
@@ -48,7 +98,16 @@ function getOperationFn(initialValue, operatorFn) {}
  * console.log(generator()); // 7
  * console.log(generator()); // 9
  */
-function sequence(start, step) {}
+function sequence(start, step) {
+    let innerVal = start
+    if (innerVal === undefined) innerVal = 0
+    return () => {
+        let lastVal = innerVal
+        if (step === undefined) innerVal += 1
+        else innerVal += step
+        return lastVal
+    }
+}
 
 /**
  * Напишите функцию deepEqual, которая принимает два значения
@@ -64,17 +123,31 @@ function sequence(start, step) {}
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 33], text: 'text'}) // true
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
-function deepEqual(firstObject, secondObject) {}
+function deepEqual(firstObject, secondObject) {
+    if (firstObject === secondObject) {
+        return true
+    }
+
+    if (firstObject !== firstObject || secondObject !== secondObject) {
+        return isNaN(firstObject) && isNaN(secondObject)
+    }
+    if (!((typeof firstObject == "object" && firstObject != null) && (typeof secondObject == "object" && secondObject != null))) {
+        return false
+    }
+    if (Object.keys(firstObject).length != Object.keys(secondObject).length) {
+        return false
+    }
+    for (let val in firstObject) {
+        if (!(val in secondObject)) {
+            return false
+        }
+        if (!(deepEqual(firstObject[val], secondObject[val]))) {
+            return false
+        }
+    }
+    return true
+}
 
 module.exports = {
-    isInteger,
-    even,
-    sumTo,
-    recSumTo,
-    factorial,
-    isBinary,
-    fibonacci,
-    getOperationFn,
-    sequence,
-    deepEqual,
+    isInteger, even, sumTo, recSumTo, factorial, isBinary, fibonacci, getOperationFn, sequence, deepEqual,
 };
