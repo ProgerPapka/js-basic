@@ -36,19 +36,19 @@ function getOperationFn(initialValue, operatorFn) {}
  * Напишите функцию создания генератора арифметической последовательности.
  * При ее вызове, она возвращает новую функцию генератор - generator().
  * Каждый вызов функции генератора возвращает следующий элемент последовательности.
- * Если начальное значение не передано, то оно равно 0.
- * Если шаг не указан, то по дефолту он равен 1.
+ * Если начальное значение не передано то оно равно 0.
+ * Если шаг не угазан, то по дефолту он равен 1.
  * Генераторов можно создать сколько угодно - они все независимые.
  *
  * @param {number} start - число с которого начинается последовательность
- * @param {number} step  - число шаг последовательности
+ * @param {number} step  - число шаг полседовательности
  * @example
  * const generator = sequence(5, 2);
  * console.log(generator()); // 5
  * console.log(generator()); // 7
  * console.log(generator()); // 9
  */
-function sequence(start, step) {}
+function sequence(start = 0, step = 1) {}
 
 /**
  * Напишите функцию deepEqual, которая принимает два значения
@@ -58,8 +58,8 @@ function sequence(start, step) {}
  * Учитывать специфичные объекты(такие как Date, RegExp итп) не обязательно
  *
  * @param {object} firstObject - первый объект
- * @param {object} secondObject - второй объект
- * @returns {boolean} - true если объекты равны(по содержанию) иначе false
+ * @param {object} secondObject - второй оббъект
+ * @returns {boolean} - true если объекты равны(по сожержанию) иначе false
  * @example
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 33], text: 'text'}) // true
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
