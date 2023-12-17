@@ -1,12 +1,14 @@
 //Напишите функцию, которая проверяет, является ли число целым используя побитовые операторы
 function isInteger(n) {
-    return (n & 1) === 0
+    if (typeof n !== 'number') return false;
+
+    return (n | 0) === n;
 }
 
 //Напишите функцию, которая возвращает массив четных чисел от 2 до 20 включительно
 function even() {
     const numbers = [];
-    for (let i = 2; i <= 20; i += 20) {
+    for (let i = 2; i <= 20; i += 2) {
         numbers.push(i);
     }
     return numbers;
@@ -27,7 +29,7 @@ function sumTo(n) {
 function recSumTo(n) {
     if (n === 0) return n;
 
-    return n + recSumTo(n - 1)
+    return n + recSumTo(n - 1);
 }
 
 //Напишите функцию, считающую факториал заданного числа
@@ -43,7 +45,7 @@ function factorial(n) {
 
 //Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
 function isBinary(n) {
-    if (n <= 0) return false
+    if (n <= 0) return false;
 
     return (n & (n - 1)) === 0;
 }
@@ -52,10 +54,10 @@ function isBinary(n) {
 function fibonacci(n) {
     if (n <= 1) return n;
 
-    let first = 1;
+    let first = 0;
     let second = 1;
 
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n - 1; i++) {
         const next = first + second;
         first = second;
         second = next;
@@ -75,15 +77,15 @@ function fibonacci(n) {
  * console.log(sumFn(3)) - 18
  */
 function getOperationFn(initialValue, operatorFn) {
-    let stored = initialValue
+    let stored = initialValue;
 
-    return function(newValue) {
+    return function (newValue) {
         if (operatorFn) {
             stored = operatorFn(stored, newValue);
         }
 
         return stored;
-    }
+    };
 }
 
 /**
@@ -106,12 +108,11 @@ function sequence(start, step) {
     let current = start === undefined ? 0 : start;
     const storedStep = step === undefined ? 1 : step;
 
-
-    return function() {
+    return function () {
         const toReturn = current;
         current += storedStep;
         return toReturn;
-    }
+    };
 }
 
 /**
@@ -129,28 +130,39 @@ function sequence(start, step) {
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
 function deepEqual(firstObject, secondObject) {
-    const isObject = (object) => {
-        return object != null && typeof object === "object";
-    };
+    if (Number.isNaN(firstObject) && Number.isNaN(secondObject)) {
+        return true;
+    }
 
-    const objKeys1 = Object.keys(object1);
-    const objKeys2 = Object.keys(object2);
+    if (firstObject === secondObject) {
+        return true;
+    }
 
-    if (objKeys1.length !== objKeys2.length) return false;
+    if (
+        typeof firstObject !== 'object' ||
+        typeof secondObject !== 'object' ||
+        firstObject === null ||
+        secondObject === null
+    ) {
+        return false;
+    }
 
-    for (const key of objKeys1) {
-        const value1 = firstObject[key];
-        const value2 = secondObject[key];
+    const keysA = Object.keys(firstObject);
+    const keysB = Object.keys(secondObject);
 
-        const isObjects = isObject(value1) && isObject(value2);
+    if (keysA.length !== keysB.length) {
+        return false;
+    }
 
+    for (const key of keysA) {
         if (
-            (isObjects && !deepEqual(value1, value2)) ||
-            (!isObjects && value1 !== value2)
+            !keysB.includes(key) ||
+            !deepEqual(firstObject[key], secondObject[key])
         ) {
             return false;
         }
     }
+
     return true;
 }
 
