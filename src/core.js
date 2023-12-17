@@ -155,10 +155,7 @@ function deepEqual(firstObject, secondObject) {
     }
 
     for (const key of keysA) {
-        if (
-            !keysB.includes(key) ||
-            !deepEqual(firstObject[key], secondObject[key])
-        ) {
+        if (!deepEqual(firstObject[key], secondObject[key])) {
             return false;
         }
     }
